@@ -44,3 +44,7 @@ nix run .#init
     - [ ] react
     - [ ] server
 - [ ] website
+
+## Resources
+Some great resources that I need to go back to
+- https://myme.no/posts/2022-01-16-nixos-the-ultimate-dev-environment.html
