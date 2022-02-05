@@ -1,34 +1,38 @@
 # nix-template
-High quality and modern nix flakes for bootstrapping projects.
+High quality and modern nix flake templates for bootstrapping projects.
 
 Every flake includes the following
 - development shell
-- [direnv](https://direnv.net/) integration
-- init app
+- init shell
   - When creating a new project, use this to initialize the project
 - nix shell integration
-- run app
 - GitHub continuous integration
+- backwards compatible with non-flakey nix
 
 The best way to see how to use one of these templates is with an example
 ```sh
-nix flake init -t github:mbund/nix-template#python.poetry2nix
-nix run .#init
+nix flake init -t github:mbund/nix-template#haskell-cabal2nix
+# edit `flake.nix` to set package name
+nix develop .#init -c $SHELL
+# use `cabal init` as normal...
 ```
 or
 ```sh
-nix flake new -t github:mbund/nix-template#python.poetry2nix ./my-poetry-project
-cd my-poetry-project
-nix run .#init
+nix flake new -t github:mbund/nix-template#haskell-cabal2nix ./my-haskell-project
+cd my-haskell-project
+# edit `flake.nix` to set package name
+nix develop .#init -c $SHELL
+# use `cabal init` as normal...
 ```
 
+## Support
 - [ ] python
   - [ ] native
   - [ ] poetry2nix
   - [ ] pypi
 - [ ] haskell
   - [ ] native
-  - [ ] cabal2nix
+  - [x] cabal2nix
   - [ ] stack
 - [ ] rust
   - [ ] cargo2nix
@@ -48,3 +52,4 @@ nix run .#init
 ## Resources
 Some great resources that I need to go back to
 - https://myme.no/posts/2022-01-16-nixos-the-ultimate-dev-environment.html
+- https://github.com/serokell/templates

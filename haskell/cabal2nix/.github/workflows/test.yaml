@@ -1,0 +1,22 @@
+name: "Nix Tests"
+on:
+  pull_request:
+  push:
+jobs:
+  nix:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: cachix/install-nix-action@v16
+
+    - name: Flake metadata
+      run: nix flake metadata
+
+    - name: Flake outputs
+      run: nix flake show
+
+    - name: Check
+      run: nix flake check
+
+    - name: Build
+      run: nix build
