@@ -34,8 +34,8 @@ nix develop .#init -c $SHELL
   - [ ] native
   - [x] cabal2nix
   - [ ] stack
-- [ ] rust
-  - [ ] cargo2nix
+- [x] rust
+  - [x] cargo2nix
 - [ ] c
   - [ ] make
   - [ ] cmake
@@ -43,11 +43,8 @@ nix develop .#init -c $SHELL
   - [ ] cmake
 - [ ] bash
 - [ ] go
-- [ ] nodejs
-  - [ ] node2nix
-    - [ ] react
-    - [ ] server
-- [ ] website
+- [x] nodejs
+  - [x] node2nix
 
 ## Resources
 Some great resources that I need to go back to

@@ -42,6 +42,10 @@
           self.packages.${system}.${packageName}
         ];
 
+        shellHook = ''
+          [ $STARSHIP_SHELL ] && exec $STARSHIP_SHELL
+        '';
+
         CURRENT_PROJECT = nixpkgs.lib.escapeShellArg packageName;
       };
 

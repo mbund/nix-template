@@ -13,5 +13,10 @@
       description = "crate2nix init project";
     };
 
+    templates.nodejs = {
+      path = ./nodejs;
+      description = "nodejs init project";
+    };
+
   };
 }
