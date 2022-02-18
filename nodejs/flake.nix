@@ -48,8 +48,7 @@
         inherit pkgs;
       };
 
-      # packageName = throw "package name required!";
-      packageName = "package1";
+      packageName = throw "package name required!";
 
     in {
 

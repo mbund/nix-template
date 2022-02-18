@@ -19,8 +19,6 @@
 
       inherit (import "${crate2nix}/tools.nix" { inherit pkgs; }) generatedCargoNix;
 
-      packageName = throw "package name required!";
-
       project = import (generatedCargoNix {
         name = packageName;
         src = ./.;
@@ -30,6 +28,8 @@
           # Dependency overrides go here
         };
       };
+
+      packageName = throw "package name required!";
 
     in {
 
