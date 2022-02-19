@@ -1,5 +1,5 @@
 {
-  description = "Rust template";
+  description = "rust-crate2nix template";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
@@ -56,7 +56,7 @@
           [ $STARSHIP_SHELL ] && exec $STARSHIP_SHELL
         '';
 
-        CURRENT_PROJECT = nixpkgs.lib.escapeShellArg packageName;
+        CURRENT_PROJECT = packageName;
       };
 
       defaultPackage = self.packages.${system}.${packageName};
