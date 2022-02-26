@@ -2,7 +2,7 @@
   description = "Templates";
 
   outputs = { self }: {
-    
+
     templates.haskell-cabal2nix = {
       path = ./haskell-cabal2nix;
       description = "haskell cabal2nix init project";
@@ -11,6 +11,11 @@
     templates.rust-crate2nix = {
       path = ./rust-crate2nix;
       description = "rust crate2nix init project";
+    };
+
+    templates.rust-cargo2nix = {
+      path = ./rust-cargo2nix;
+      description = "rust cargo2nix init project";
     };
 
     templates.nodejs = {
@@ -25,3 +30,7 @@
 
   };
 }
+
+
+
+

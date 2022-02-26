@@ -35,6 +35,7 @@ nix develop .#init -c $SHELL
   - [x] cabal2nix
   - [ ] stack
 - [x] rust
+  - [x] crate2nix
   - [x] cargo2nix
 - [ ] c
   - [ ] make

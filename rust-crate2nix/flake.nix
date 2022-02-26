@@ -9,59 +9,66 @@
   };
 
   outputs = { self, nixpkgs, crate2nix, flake-utils, ... }:
-    flake-utils.lib.eachSystem (with flake-utils.lib.system; [
-      x86_64-linux
+    flake-utils.lib.eachSystem
+      (with flake-utils.lib.system; [
+        x86_64-linux
 
-    ]) (system: let
-      pkgs = import nixpkgs {
-        inherit system;
-      };
+      ])
+      (system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+          };
 
-      inherit (import "${crate2nix}/tools.nix" { inherit pkgs; }) generatedCargoNix;
+          inherit (import "${crate2nix}/tools.nix" { inherit pkgs; }) generatedCargoNix;
 
-      project = import (generatedCargoNix {
-        name = packageName;
-        src = ./.;
-      }) {
-        inherit pkgs;
-        defaultCrateOverrides = pkgs.defaultCrateOverrides // {
-          # Dependency overrides go here
-        };
-      };
+          project = import
+            (generatedCargoNix {
+              name = packageName;
+              src = ./.;
+            })
+            {
+              inherit pkgs;
+              defaultCrateOverrides = pkgs.defaultCrateOverrides // {
+                # Dependency overrides go here
+              };
+            };
 
-      packageName = throw "package name required!";
+          packageName = throw "package name required!";
 
-    in {
+        in
+        {
 
-      packages.${packageName} = project.rootCrate.build;
+          packages.${packageName} = project.rootCrate.build;
 
-      devShells.init = pkgs.mkShell {
-        packages = with pkgs; [
-          cargo
-        ];
-      };
+          devShells.init = pkgs.mkShell {
+            packages = with pkgs; [
+              cargo
+            ];
+          };
 
-      devShells.dev = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          rust-analyzer
-          clippy
-        ];
+          devShells.dev = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              rust-analyzer
+              clippy
+            ];
 
-        inputsFrom = [
-          self.devShells.${system}.init
-          self.packages.${system}.${packageName}
-        ];
+            inputsFrom = [
+              self.devShells.${system}.init
+              self.packages.${system}.${packageName}
+            ];
 
-        shellHook = ''
-          [ $STARSHIP_SHELL ] && exec $STARSHIP_SHELL
-        '';
+            shellHook = ''
+              [ $STARSHIP_SHELL ] && exec $STARSHIP_SHELL
+            '';
 
-        CURRENT_PROJECT = packageName;
-      };
+            CURRENT_PROJECT = packageName;
+          };
 
-      defaultPackage = self.packages.${system}.${packageName};
-      devShell = self.devShells.${system}.dev;
+          defaultPackage = self.packages.${system}.${packageName};
+          devShell = self.devShells.${system}.dev;
 
-    });
+        });
 
 }
+

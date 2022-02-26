@@ -9,50 +9,55 @@
   };
 
   outputs = { self, nixpkgs, poetry2nix, flake-utils, ... }:
-    flake-utils.lib.eachSystem (with flake-utils.lib.system; [
-      x86_64-linux
+    flake-utils.lib.eachSystem
+      (with flake-utils.lib.system; [
+        x86_64-linux
 
-    ]) (system: let
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [
-          poetry2nix.overlay
-        ];
-      };
+      ])
+      (system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [
+              poetry2nix.overlay
+            ];
+          };
 
-      poetryEnv = pkgs.poetry2nix.mkPoetryEnv {
-        python = pkgs.python3;
-        projectDir = ./.;
-      };
+          poetryEnv = pkgs.poetry2nix.mkPoetryEnv {
+            python = pkgs.python3;
+            projectDir = ./.;
+          };
 
-      packageName = throw "package name required!";
+          packageName = throw "package name required!";
 
-    in {
+        in
+        {
 
-      devShells.init = pkgs.mkShell {
-        packages = with pkgs; [
-          poetry
-        ];
-      };
+          devShells.init = pkgs.mkShell {
+            packages = with pkgs; [
+              poetry
+            ];
+          };
 
-      devShells.dev = pkgs.mkShell {
-        buildInputs = with pkgs; [
-        ];
+          devShells.dev = pkgs.mkShell {
+            buildInputs = with pkgs; [
+            ];
 
-        inputsFrom = [
-          self.devShells.${system}.init
-          poetryEnv.env
-        ];
+            inputsFrom = [
+              self.devShells.${system}.init
+              poetryEnv.env
+            ];
 
-        shellHook = ''
-          [ $STARSHIP_SHELL ] && exec $STARSHIP_SHELL
-        '';
+            shellHook = ''
+              [ $STARSHIP_SHELL ] && exec $STARSHIP_SHELL
+            '';
 
-        CURRENT_PROJECT = packageName;
-      };
+            CURRENT_PROJECT = packageName;
+          };
 
-      devShell = self.devShells.${system}.dev;
+          devShell = self.devShells.${system}.dev;
 
-    });
+        });
 
 }
+
